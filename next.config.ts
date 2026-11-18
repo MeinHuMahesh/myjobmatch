@@ -1,7 +1,16 @@
 import type { NextConfig } from "next";
 
+const isPagesExport = process.env.PAGES_EXPORT === "1";
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  ...(isPagesExport
+    ? {
+        output: "export" as const,
+        basePath: process.env.PAGES_BASE_PATH || undefined,
+        trailingSlash: true,
+      }
+    : {}),
   serverExternalPackages: [
     "playwright",
     "pdf-parse",
@@ -9,11 +18,13 @@ const nextConfig: NextConfig = {
     "tesseract.js",
     "@tesseract.js-data/eng",
   ],
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "8mb",
-    },
-  },
+  experimental: isPagesExport
+    ? undefined
+    : {
+        serverActions: {
+          bodySizeLimit: "8mb",
+        },
+      },
 };
 
 export default nextConfig;

@@ -473,22 +473,26 @@ scoring.
   16px inputs (prevents iOS zoom), and full-width primary actions are used
   throughout.
 - **Dashboard** (`src/app/page.tsx` → `Dashboard.tsx`): `page.tsx` is a server
-  component (`force-dynamic`) that renders the first 20 cards into the HTML, so
-  the list paints with the document and CLS stays at 0. `Dashboard.tsx` takes
-  that as `initialData`/`initialStatus`, skips the first filter fetch, keeps the
-  current list mounted while refetching (with an “Updating results…” hint),
-  paginates with `loadMore`, and pauses the 15 s status poll when the tab is
-  hidden. Also contains the fetch button, “Refresh all JDs” action, live
-  progress banner (`x/y` descriptions, cached/failed/OCR counts), run status,
-  collapsible filters on mobile, and empty states prompting a resume upload.
+  component that renders the first 20 cards into the HTML, so the list paints
+  with the document and CLS stays at 0. `Dashboard.tsx` takes that as
+  `initialData`/`initialStatus`, skips the first filter fetch, keeps the current
+  list mounted while refetching (with an “Updating results…” hint), paginates
+  with `loadMore`, and pauses the 15 s status poll when the tab is hidden. Also
+  contains the fetch button, “Refresh all JDs” action, live progress banner
+  (`x/y` descriptions, cached/failed/OCR counts), run status, collapsible filters
+  on mobile, and empty states prompting a resume upload. In static export mode,
+  `DashboardStatic.tsx` uses the committed snapshot instead of API polling;
+  fetch and refresh controls are omitted.
 - **Performance budget.** `JobCard` receives a `JobSummary` (no `description`),
   is memoised, sets `prefetch={false}`, and carries `content-visibility: auto`
   (`.job-card`). `ScoreGauge` is a masked CSS `conic-gradient` rather than SVG.
 - **Resume** (`src/app/resume/page.tsx` → `ResumeEditor.tsx`): upload and edit the
-  parsed profile.
+  parsed profile. Static builds use `ResumeEditorStatic.tsx`, which parses
+  PDF/DOCX files in the browser and stores the profile in `localStorage`.
 - **Job detail** (`src/app/jobs/[id]/page.tsx`): posting metadata, score gauge,
   component breakdown, matched/missing skills, eligibility checks, and the full
-  job description (natural height, wraps on mobile).
+  job description (natural height, wraps on mobile). Static builds use
+  `StaticJobDetail.tsx` + `JobDetailContent.tsx` with browser-side scores.
 - Styling: Tailwind CSS v4 via `@tailwindcss/postcss`; global theme in
   `src/app/globals.css`.
 
@@ -577,13 +581,15 @@ src/
     layout.tsx
     globals.css
   components/
-    Dashboard.tsx
-    JobCard.tsx
-    ScoreGauge.tsx
-    ResumeEditor.tsx
+    Dashboard.tsx  DashboardStatic.tsx
+    JobCard.tsx    JobDetailContent.tsx
+    ScoreGauge.tsx StaticJobDetail.tsx
+    ResumeEditor.tsx ResumeEditorStatic.tsx
+    ResumeProvider.tsx
   lib/
     config.ts      types.ts      db.ts
     jobList.ts     status.ts     scrape-state.ts
+    snapshot.ts    browserDocument.ts resumeText.ts
     scraper.ts     scrape-service.ts
     extract.ts     skills.ts     scoring.ts
     parseResume.ts pdfText.ts    textNormalize.ts
@@ -591,6 +597,68 @@ src/
 scripts/
   scrape.ts        scheduler.ts   inspect.ts
   reextract.ts     perf.mjs
+  export-snapshot.ts validate-snapshot.mjs
+  build-pages.mjs  copy-pdf-worker.mjs
+.github/workflows/
+  deploy.yml       refresh-data.yml
+public/data/
+  jobs.json        meta.json
 README.md
 DOCUMENTATION.md
+```
+
+---
+
+## 14. GitHub Pages hosting
+
+The production build has two modes:
+
+| Mode | How it runs | Data |
+| --- | --- | --- |
+| Local | `npm run build` / `npm start` | SQLite + API routes + server-side resume scoring. |
+| Static | `PAGES_EXPORT=1 npm run build` or `npm run build:pages` | Committed `public/data/jobs.json`; browser-side resume scoring. |
+
+`next.config.ts` enables `output: "export"` only when `PAGES_EXPORT=1`, and sets
+`basePath`/`trailingSlash` from `PAGES_BASE_PATH` (default `/myjobmatch` for local
+static builds). The deploy workflow overrides it with the `base_path` reported by
+`actions/configure-pages@v5`.
+
+Static mode changes:
+
+- `src/app/api/**` is not part of the export. The deploy workflow deletes it in
+  the temporary checkout; `npm run build:pages` moves it aside and restores it.
+- `src/app/page.tsx` renders `DashboardStatic.tsx` from the snapshot; no API
+  polling, fetch button, or JD refresh button is rendered.
+- `src/app/jobs/[id]/page.tsx` uses `generateStaticParams()` over the snapshot
+  and renders `StaticJobDetail.tsx`.
+- `src/app/resume/page.tsx` uses `ResumeEditorStatic.tsx`; `pdfjs-dist` and
+  `mammoth` parse uploaded files in the browser. The pdf.js worker is copied to
+  `public/pdf.worker.min.mjs` by `prebuild`.
+- `ResumeProvider.tsx` keeps the profile in `localStorage` under
+  `myjobmatch:resume:v1` and recomputes scores with `scoreJob()` for all snapshot
+  jobs. No resume data is sent anywhere.
+
+### Workflows
+
+- `.github/workflows/deploy.yml` — push to `main` (or manual) → Node 24 →
+  `npm ci` → `actions/configure-pages@v5` → remove API routes → build with
+  `PAGES_EXPORT=1`, `PAGES_BASE_PATH`, `NEXT_PUBLIC_PAGES_BASE_PATH`, and
+  `NEXT_PUBLIC_STATIC_EXPORT=1` → upload `out/` → `actions/deploy-pages@v4`.
+- `.github/workflows/refresh-data.yml` — daily 01:00 UTC (or manual) → Node 24 →
+  Chrome via `browser-actions/setup-chrome@v1` → `npm run scrape:force -- --no-details`
+  → `npm run snapshot:export` → `npm run snapshot:validate` → commit
+  `public/data/jobs.json` + `public/data/meta.json` → push to `main`. This push
+  triggers the deploy workflow. The workflow has `contents: write`; Pages needs
+  **Read and write permissions** under **Settings → Actions → General**.
+
+If hosted runners are blocked by the portal, disable `refresh-data.yml` and
+refresh the snapshot locally:
+
+```bash
+npm run scrape:force -- --no-details
+npm run snapshot:export
+npm run snapshot:validate
+git add public/data/jobs.json public/data/meta.json
+git commit -m "chore: refresh job snapshot"
+git push
 ```

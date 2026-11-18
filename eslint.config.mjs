@@ -9,6 +9,8 @@ const config = [
       ".next/**",
       "node_modules/**",
       "db/**",
+      "out/**",
+      "public/pdf.worker.min.mjs",
       "scripts/**",
       "next-env.d.ts",
     ],

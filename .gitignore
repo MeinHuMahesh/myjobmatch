@@ -43,3 +43,9 @@ yarn-error.log*
 
 # perf reports
 /perf-report.json
+
+# generated browser PDF worker
+/public/pdf.worker.min.mjs
+
+# temporary static-build backup
+/.api-backup/

@@ -16,11 +16,17 @@ export const viewport: Viewport = {
   themeColor: "#070b14",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let content = children;
+  if (process.env.PAGES_EXPORT === "1") {
+    const { ResumeProvider } = await import("@/components/ResumeProvider");
+    content = <ResumeProvider>{children}</ResumeProvider>;
+  }
+
   return (
     <html lang="en">
       <body className="min-h-dvh antialiased">
@@ -50,7 +56,7 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
-        <main className="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:pb-8 sm:pt-8">{children}</main>
+        <main className="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:pb-8 sm:pt-8">{content}</main>
         <footer className="mx-auto max-w-6xl px-4 pb-24 pt-4 text-xs text-slate-500 sm:pb-10">
           Data is scraped from the public IIT Bombay placement portal and scored locally. No
           credentials are stored.

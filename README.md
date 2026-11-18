@@ -48,7 +48,10 @@ profile, then click **Fetch now** on the dashboard.
 | `npm run dev:all` | Run the app **and** the daily scheduler. |
 | `npm run dev:lan` | Run the app on your LAN (reachable from your phone). |
 | `npm run dev:all:lan` | LAN app + scheduler. |
-| `npm run build` | Production build. |
+| `npm run build` | Production build for local use. |
+| `npm run build:pages` | Static export for GitHub Pages (writes `out/`). |
+| `npm run snapshot:export` | Export `db/jobs.db` to `public/data/*.json`. |
+| `npm run snapshot:validate` | Validate the committed snapshot. |
 | `npm run start:all` | Run the built app with the scheduler. |
 | `npm run start:lan` | Run the built app on your LAN. |
 | `npm run start:all:lan` | LAN production app + scheduler. |
@@ -174,6 +177,36 @@ interval, and "Refresh all JDs" forces a full re-download.
 
 Keep the computer awake while the scheduler and web server run. The phone does
 not need any app or account — only the same network.
+
+## Host on GitHub Pages
+
+The same app can be published as a public static site at
+`https://<username>.github.io/<repo>/` (default `/myjobmatch/`). The local app
+keeps using the database and API routes; the hosted build uses a committed JSON
+snapshot and scores your resume entirely in the browser.
+
+**Privacy:** your resume is never uploaded. PDF/DOCX parsing and scoring run in
+your browser and the profile is saved in `localStorage` under
+`myjobmatch:resume:v1`.
+
+### One-time setup
+
+1. Push this repository to GitHub.
+2. **Settings → Pages → Source:** select **GitHub Actions**.
+3. **Settings → Actions → General → Workflow permissions:** enable
+   **Read and write permissions**.
+
+### Workflows
+
+| Workflow | Trigger | What it does |
+| --- | --- | --- |
+| `.github/workflows/deploy.yml` | Push to `main`, manual | Node 24; builds the static export with base path `/myjobmatch/` and deploys to Pages. |
+| `.github/workflows/refresh-data.yml` | Daily 01:00 UTC, manual | Node 24; scrapes the portal, exports `public/data/jobs.json`, validates it, and commits the snapshot. The push then triggers a redeploy. |
+
+The refresh job uses GitHub-hosted runners and Chrome. If the portal blocks
+their IPs, pause `refresh-data.yml`; the site keeps serving the last committed
+snapshot until you run the scraper locally and commit the refreshed JSON. A
+local static build is also available with `npm run build:pages`.
 
 ## Documentation
 
