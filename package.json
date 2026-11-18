@@ -1,0 +1,52 @@
+{
+  "name": "my-jobs-search-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "dev:all": "concurrently -n app,worker -c cyan,magenta \"next dev\" \"tsx scripts/scheduler.ts\"",
+    "dev:lan": "next dev -H 0.0.0.0",
+    "dev:all:lan": "concurrently -n app,worker -c cyan,magenta \"next dev -H 0.0.0.0\" \"tsx scripts/scheduler.ts\"",
+    "build": "next build",
+    "start": "next start",
+    "start:all": "concurrently -n app,worker -c cyan,magenta \"next start\" \"tsx scripts/scheduler.ts\"",
+    "start:lan": "next start -H 0.0.0.0",
+    "start:all:lan": "concurrently -n app,worker -c cyan,magenta \"next start -H 0.0.0.0\" \"tsx scripts/scheduler.ts\"",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "inspect": "tsx scripts/inspect.ts",
+    "scrape": "tsx scripts/scrape.ts",
+    "scrape:force": "tsx scripts/scrape.ts --force",
+    "reextract": "tsx scripts/reextract.ts",
+    "scheduler": "tsx scripts/scheduler.ts",
+    "perf": "node scripts/perf.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "^1.0.0",
+    "mammoth": "1.13.0",
+    "next": "16.4.6",
+    "node-cron": "4.6.0",
+    "pdf-parse": "2.4.5",
+    "playwright": "1.65.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.7",
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/node": "26.6.6",
+    "@types/node-cron": "3.0.11",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "^19.0.0",
+    "concurrently": "10.0.7",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "16.4.6",
+    "tailwindcss": "4.3.5",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0"
+  }
+}

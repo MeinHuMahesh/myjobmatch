@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(79, 70, 229, 0.18), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgba(16, 185, 129, 0.12), transparent 55%),
+    #070b14;
+  color: #e2e8f0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid rgba(129, 140, 248, 0.8);
+  outline-offset: 2px;
+}
+
+@media (max-width: 639px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.35);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+}
+
+/*
+ * Job cards below the viewport skip layout/paint until scrolled to. Keeps the
+ * initial long task small and makes the dashboard scale to hundreds of jobs.
+ * `auto` on contain-intrinsic-size remembers each card's real height after its
+ * first render, so scrolling stays stable.
+ */
+.job-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 176px;
+}
+

@@ -1,0 +1,45 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env
+.env.local
+.env*.local
+!.env.example
+
+# database & scraped data (contains personal resume data)
+/db/*.db
+/db/*.db-*
+/db/raw/
+/db/jd/
+/db/tesseract-cache/
+/resume/
+
+# testing
+/coverage
+
+# typescript
+*.tsbuildinfo
+
+# playwright
+/test-results/
+
+# perf reports
+/perf-report.json
