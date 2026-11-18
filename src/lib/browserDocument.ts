@@ -1,6 +1,16 @@
 import { parseResume } from "./resumeText";
 import type { ResumeProfile } from "./types";
 
+export const RESUME_ACCEPT =
+  "application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown,application/octet-stream";
+
+const RESUME_EXTENSIONS = [".pdf", ".docx", ".txt", ".md"];
+
+export function isSupportedResumeFile(file: File): boolean {
+  const name = file.name.toLowerCase();
+  return RESUME_EXTENSIONS.some((extension) => name.endsWith(extension));
+}
+
 export async function extractBrowserDocument(file: File): Promise<string> {
   const name = file.name.toLowerCase();
 

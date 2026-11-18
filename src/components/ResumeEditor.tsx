@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { RESUME_ACCEPT, isSupportedResumeFile } from "@/lib/browserDocument";
 import type { ResumeProfile } from "@/lib/types";
 
 interface Draft {
@@ -84,6 +85,7 @@ export function ResumeEditor() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [selectedName, setSelectedName] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -115,7 +117,12 @@ export function ResumeEditor() {
     setBusy(true);
     setError(null);
     setMessage(null);
+    setSelectedName(file.name);
     try {
+      if (!isSupportedResumeFile(file)) {
+        throw new Error("Unsupported file type. Please upload a PDF, DOCX, TXT, or MD file.");
+      }
+      if (file.size > 8 * 1024 * 1024) throw new Error("File is larger than 8 MB.");
       const form = new FormData();
       form.append("file", file);
       const response = await fetch("/api/resume", { method: "POST", body: form });
@@ -202,20 +209,26 @@ export function ResumeEditor() {
 
       <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
         <h2 className="text-sm font-semibold text-slate-200">Upload / replace resume</h2>
-        <p className="mt-1 text-xs text-slate-500">PDF, DOCX, or TXT up to 8 MB.</p>
-        <div className="mt-3 flex flex-wrap items-center gap-3">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pdf,.docx,.txt,.md"
-            disabled={busy}
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              if (file) void uploadFile(file);
-            }}
-            className="w-full text-sm text-slate-300 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-500 file:px-3 file:py-2.5 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-400"
-          />
-          {busy ? <span className="text-sm text-slate-400">Working…</span> : null}
+        <p className="mt-1 text-xs text-slate-500">PDF, DOCX, TXT, or MD up to 8 MB.</p>
+        <div className="mt-3">
+          <div className="relative inline-flex min-h-11 w-full items-center justify-center overflow-hidden rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-400 active:bg-indigo-600 sm:w-auto">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={RESUME_ACCEPT}
+              disabled={busy}
+              aria-label="Choose resume file"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (file) void uploadFile(file);
+              }}
+              className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
+            />
+            <span>{busy ? "Working…" : "Choose resume file"}</span>
+          </div>
+          <p className="mt-2 text-xs text-slate-500" aria-live="polite">
+            {selectedName ? `Selected: ${selectedName}` : "Tap the button to browse your files."}
+          </p>
         </div>
       </div>
 
