@@ -648,8 +648,11 @@ Static mode changes:
   Chrome via `browser-actions/setup-chrome@v1` → `npm run scrape:force -- --no-details`
   → `npm run snapshot:export` → `npm run snapshot:validate` → commit
   `public/data/jobs.json` + `public/data/meta.json` → push to `main`. This push
-  triggers the deploy workflow. The workflow has `contents: write`; Pages needs
-  **Read and write permissions** under **Settings → Actions → General**.
+  triggers the deploy workflow. `snapshot:export` merges existing advert text,
+  extracted skills, JD status, and first-seen date from the previous snapshot by
+  `externalId`, so a listing-only refresh does not erase rich job details. The
+  workflow has `contents: write`; Pages needs **Read and write permissions**
+  under **Settings → Actions → General**.
 
 If hosted runners are blocked by the portal, disable `refresh-data.yml` and
 refresh the snapshot locally:

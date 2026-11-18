@@ -203,10 +203,12 @@ your browser and the profile is saved in `localStorage` under
 | `.github/workflows/deploy.yml` | Push to `main`, manual | Node 24; builds the static export with base path `/myjobmatch/` and deploys to Pages. |
 | `.github/workflows/refresh-data.yml` | Daily 01:00 UTC, manual | Node 24; scrapes the portal, exports `public/data/jobs.json`, validates it, and commits the snapshot. The push then triggers a redeploy. |
 
-The refresh job uses GitHub-hosted runners and Chrome. If the portal blocks
-their IPs, pause `refresh-data.yml`; the site keeps serving the last committed
-snapshot until you run the scraper locally and commit the refreshed JSON. A
-local static build is also available with `npm run build:pages`.
+The refresh job uses GitHub-hosted runners and Chrome. It scrapes listing rows
+without re-downloading adverts; `snapshot:export` preserves existing advert text
+and extracted skills by `externalId` so job details stay usable. If the portal
+blocks hosted-runner IPs, pause `refresh-data.yml`; the site keeps serving the
+last committed snapshot until you run the scraper locally and commit the
+refreshed JSON. A local static build is also available with `npm run build:pages`.
 
 ## Documentation
 
