@@ -202,6 +202,7 @@ your browser and the profile is saved in `localStorage` under
 | --- | --- | --- |
 | `.github/workflows/deploy.yml` | Push to `main`, manual | Node 24; builds the static export with base path `/myjobmatch/` and deploys to Pages. |
 | `.github/workflows/refresh-data.yml` | Daily 01:00 UTC, manual | Node 24; scrapes the portal, exports `public/data/jobs.json`, validates it, and commits the snapshot. The push then triggers a redeploy. |
+| `.github/workflows/keepalive.yml` | Weekly Mon 03:17 UTC, manual | Safety net: commits `.github/keepalive.txt` only when it is older than 45 days, resetting GitHub's 60-day inactivity timer for scheduled workflows. Does not change the daily job refresh. |
 
 The refresh job uses GitHub-hosted runners and Chrome. It scrapes listing rows
 without re-downloading adverts; `snapshot:export` preserves existing advert text

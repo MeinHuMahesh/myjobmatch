@@ -653,6 +653,11 @@ Static mode changes:
   `externalId`, so a listing-only refresh does not erase rich job details. The
   workflow has `contents: write`; Pages needs **Read and write permissions**
   under **Settings → Actions → General**.
+- `.github/workflows/keepalive.yml` — weekly on Monday 03:17 UTC (or manual) →
+  checks `.github/keepalive.txt` → commits a fresh timestamp only when the file
+  is older than 45 days → pushes to `main`. This prevents GitHub from disabling
+  scheduled workflows after 60 days without repository activity. It is a safety
+  net only; `refresh-data.yml` still refreshes jobs every day at 01:00 UTC.
 
 If hosted runners are blocked by the portal, disable `refresh-data.yml` and
 refresh the snapshot locally:
