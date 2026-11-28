@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-27T09:21:29.182Z",
+  "generatedAt": "2026-11-28T08:38:04.038Z",
   "jobs": [
     {
-      "id": 11,
+      "id": 12,
       "externalId": "iitb:ircc/ext436/2026",
       "title": "Junior Research Fellow",
       "company": "IIT Bombay",
@@ -27,11 +27,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-23T08:29:10.671Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 10,
+      "id": 11,
       "externalId": "iitb:ircc/ext440/2026",
       "title": "Project Research Assistant",
       "company": "IIT Bombay",
@@ -56,11 +56,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-18T18:05:17.183Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 9,
+      "id": 10,
       "externalId": "iitb:ircc/ext437/2026",
       "title": "Sr. Project Technical Assistant",
       "company": "IIT Bombay",
@@ -85,11 +85,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-18T18:05:17.183Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 8,
+      "id": 9,
       "externalId": "iitb:ircc/ext430/2026",
       "title": "Project Research Assistant",
       "company": "IIT Bombay",
@@ -114,11 +114,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-18T18:05:17.183Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 7,
+      "id": 8,
       "externalId": "iitb:ircc/ext449/2026",
       "title": "Project Research Scientist",
       "company": "IIT Bombay",
@@ -143,11 +143,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-19T08:14:30.566Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 6,
+      "id": 7,
       "externalId": "iitb:ircc/ext396/2026",
       "title": "Sr. Project Assistant",
       "company": "IIT Bombay",
@@ -172,11 +172,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-19T08:14:30.566Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 5,
+      "id": 6,
       "externalId": "iitb:ircc/ext394/2026",
       "title": "Project Assistant",
       "company": "IIT Bombay",
@@ -201,11 +201,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-19T08:14:30.566Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 4,
+      "id": 5,
       "externalId": "iitb:ircc/ext442/2026",
       "title": "Sr. Project Technical Assistant",
       "company": "IIT Bombay",
@@ -230,11 +230,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-22T07:41:05.392Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 3,
+      "id": 4,
       "externalId": "iitb:ircc/ext456/2026",
       "title": "Project Research Assistant",
       "company": "IIT Bombay",
@@ -259,11 +259,11 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-27T09:21:28.932Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
-      "id": 2,
+      "id": 3,
       "externalId": "iitb:ircc/ext452/2026",
       "title": "Project Research Assistant",
       "company": "IIT Bombay",
@@ -288,7 +288,36 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-27T09:21:28.932Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
+      "score": null
+    },
+    {
+      "id": 2,
+      "externalId": "iitb:ircc/ext450/2026",
+      "title": "Project Engineer",
+      "company": "IIT Bombay",
+      "location": "Mumbai",
+      "jobType": "Project Staff",
+      "ctc": null,
+      "stipend": null,
+      "eligibleBranches": [],
+      "eligibleDegrees": [],
+      "minCgpa": null,
+      "graduationYears": [],
+      "deadline": "11.12.2026",
+      "description": "Category: Project Staff\nReference code: IRCC/EXT450/2026\nApplications open: 27.11.2026\nLast date to apply: 11.12.2026",
+      "applyUrl": null,
+      "requiredSkills": [],
+      "preferredSkills": [],
+      "rawText": "Project Engineer | IRCC/EXT450/2026 | 27.11.2026 | 11.12.2026",
+      "jdStatus": "missing",
+      "jdSource": null,
+      "jdFetchedAt": null,
+      "jdCharCount": 0,
+      "jdError": null,
+      "jdPdfPath": null,
+      "firstSeenAt": "2026-11-28T08:38:03.673Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     },
     {
@@ -317,7 +346,7 @@
       "jdError": null,
       "jdPdfPath": null,
       "firstSeenAt": "2026-11-14T13:27:54.713Z",
-      "lastSeenAt": "2026-11-27T09:21:28.932Z",
+      "lastSeenAt": "2026-11-28T08:38:03.673Z",
       "score": null
     }
   ]
